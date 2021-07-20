@@ -33,4 +33,9 @@ public class DataReaderController {
 	public Boolean getEpisodeIsFavorite(@RequestBody SeriesSeasonEpisodes seriesSeasonEpisodes){
 		return seriesDataService.getEpisodeIsFavorite(seriesSeasonEpisodes);
 	}
+
+	@GetMapping("/get-all-favorite")
+	public List<SeriesSeasonEpisodes> getAllFavEpisodes(){
+		return seriesDataService.getAllFavEpisodes();
+	}
 }

@@ -19,7 +19,6 @@ public class SeriesSeasonEpisodes {
     private Long id;
     private String webseriesName;
     private String season;
-    @Column(name="EPISODE_NAME", unique=true)
     private String episodeName;
     private Boolean isFavorite=false;
 

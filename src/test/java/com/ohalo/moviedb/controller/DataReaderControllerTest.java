@@ -2,6 +2,7 @@ package com.ohalo.moviedb.controller;
 
 import com.ohalo.moviedb.fetch.model.SeriesSeasonEpisodes;
 import org.assertj.core.api.Assertions;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +38,11 @@ public class DataReaderControllerTest {
 
     @Test
     public void givenSeriesNameAndSeasonNumber_WhenQueried_respondWithEpisodeName() throws Exception{
-        ResponseEntity<List> response = restTemplate.getForEntity("/series/episodes-for-season?series=Game of Thrones&season=1", List.class);
+        ResponseEntity<List> response = restTemplate.getForEntity("/series/episodes-for-season?series=Dark&season=2", List.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Assertions.assertThat(response.getBody().size()).isEqualTo(10);
-        String episode1 = (String) response.getBody().get(0);
-        Assertions.assertThat(episode1).isEqualTo("Winter Is Coming");
+        Assertions.assertThat(response.getBody().size()).isEqualTo(8);
+        LinkedHashMap hashMap =(LinkedHashMap) response.getBody().get(2);
+        Assertions.assertThat(hashMap.get("episodeName")).isEqualTo("Ghosts");
     }
 
     @Test
@@ -52,11 +55,24 @@ public class DataReaderControllerTest {
     }
 
     @Test
-    public void removingFavoriteEpisodeTest() throws InterruptedException {
+    public void removingFavoriteEpisodeTest() {
         SeriesSeasonEpisodes seriesSeasonEpisodes = new SeriesSeasonEpisodes("Dark","2","Ghosts",false);
         ResponseEntity response = restTemplate.postForEntity("/write/remove-favorite", seriesSeasonEpisodes, SeriesSeasonEpisodes.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         ResponseEntity<Boolean> getResponse = restTemplate.postForEntity("/series/episodes-is-favorite",seriesSeasonEpisodes,Boolean.class);
         Assertions.assertThat((Boolean) getResponse.getBody()).isFalse();
+    }
+
+    @Test
+    public void getListOfAllTheFavoriteEpisodesTest(){
+        SeriesSeasonEpisodes seriesSeasonEpisodes = new SeriesSeasonEpisodes("Dark","2","Ghosts",true);
+        ResponseEntity response = restTemplate.postForEntity("/write/add-favorite", seriesSeasonEpisodes, SeriesSeasonEpisodes.class);
+        ResponseEntity<SeriesSeasonEpisodes[]> respArray = restTemplate.getForEntity("/series/get-all-favorite", SeriesSeasonEpisodes[].class);
+        List<SeriesSeasonEpisodes> respList = Arrays.asList(respArray.getBody());
+        for(SeriesSeasonEpisodes s : respList){
+            System.out.println(s.getEpisodeName());
+        }
+        Assertions.assertThat(respArray.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(respList.size()).isGreaterThan(0);
     }
 }

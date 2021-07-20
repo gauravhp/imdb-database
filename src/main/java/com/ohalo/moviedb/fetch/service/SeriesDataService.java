@@ -16,4 +16,5 @@ public interface SeriesDataService {
     public List<SeriesSeasonEpisodes> getEpisodeDataListForSeriesAndSeason(String seriesName, String seasonNumber);
     public void saveFavoriteEpisode(SeriesSeasonEpisodes seriesSeasonEpisodes);
     public Boolean getEpisodeIsFavorite(SeriesSeasonEpisodes seriesSeasonEpisodes);
+    public List<SeriesSeasonEpisodes> getAllFavEpisodes();
 }

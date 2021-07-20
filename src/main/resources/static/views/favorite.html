@@ -1,0 +1,18 @@
+<table class="table" table-hover>
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Web Series</th>
+        <th scope="col">Season</th>
+        <th scope="col">Episode</th>
+    </tr>
+    </thead>
+    <tbody ng-repeat="episode in favepisodelist">
+    <tr>
+        <th scope="row">{{$index+1}}</th>
+        <td>{{episode.webseriesName}}</td>
+        <td>{{episode.season}}</td>
+        <td>{{episode.episodeName}}</td>
+    </tr>
+    </tbody>
+</table>

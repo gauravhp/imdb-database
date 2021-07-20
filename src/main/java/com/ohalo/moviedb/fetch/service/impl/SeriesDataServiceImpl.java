@@ -54,8 +54,12 @@ public class SeriesDataServiceImpl implements SeriesDataService {
 
     private List<SeriesSeasonEpisodes> getEpisodeData(String seriesName, String seasonNumber, List<String> episodes) {
         List<SeriesSeasonEpisodes> response = new ArrayList<>();
+        List<String> episodeAlreadyFav = repository.findBySeriesWebseriesNameAndSeason(seriesName,seasonNumber);
         for(String episode: episodes){
-            response.add(new SeriesSeasonEpisodes(seriesName, seasonNumber,episode,false));
+            if(episodeAlreadyFav.contains(episode))
+                response.add(new SeriesSeasonEpisodes(seriesName, seasonNumber,episode,true));
+            else
+                response.add(new SeriesSeasonEpisodes(seriesName, seasonNumber,episode,false));
         }
         return response;
     }
@@ -79,5 +83,10 @@ public class SeriesDataServiceImpl implements SeriesDataService {
             return findEpisode.getIsFavorite();
         }
         return false;
+    }
+
+    @Override
+    public List<SeriesSeasonEpisodes> getAllFavEpisodes() {
+        return repository.findAllFavorite();
     }
 }

@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="en-us" ng-app="angularApp">
 <head>
-  <title>My Favorite webseries</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta charset="UTF-8">
+    <title>My Favorite webseries</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
 
-  <!-- load bootstrap and fontawesome via CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-  <style>
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <style>
             html, body
             {
                 font-size: 1.1em;
             }
-        </style>
 
-  <!-- load angular via CDN -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-  <script type="text/javascript"  src="/js/app/app.js"></script>
+    </style>
+
+    <!-- load angular via CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script type="text/javascript" src="/js/app/app.js"></script>
 </head>
+
 <body>
 
 <header>
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">Choose favorite web-series episodes</a>
+        <a class="navbar-brand">Home</a>
       </div>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><i class="fa fa-home"></i> Go to my Favorite episodes </a></li>
+      <ul class="nav navbar-nav navbar-right list-group-horizontal-md">
+          <li style="padding: 10px 10px;"><a href="#"><i class="fa fa-home"></i>  Search  </a></li>
+          <li style="padding: 10px 10px;"><a href="#!/favorite"><i></i>  Favorite  </a></li>
       </ul>
     </div>
   </nav>
@@ -36,28 +40,10 @@
 
 <div class="container">
 
-  <div ng-controller="mainController">
-    <div>
-    Search Webseries: <input type="text" ng-model="webseriesname" />  <a href="#" class="btn btn-secondary" ng-click="searchseries()">Search</a>
-    </div>
-    <!--div class="alert">{{episodecount}}</div-->
-    <div ng-show="IsVisible">List of Seasons for {{webseriesname}} </div>
-    <div class="list-group" ng-repeat="x in [].constructor(episodecount) track by $index" ng-show="IsVisible">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-primary" ng-click="listepisodes($index+1)">Season {{$index+1}}</a>
-    </div>
-    <hr ng-show="IsListVisible"/>
-    <div ng-show="IsListVisible">List of episodes for season {{currentseason}} of series {{webseriesname}}</div>
+  <div ng-view></div>
 
-
-    <div class="list-group" ng-show="IsListVisible">
-      <label class="list-group-item" ng-repeat="episode in episodelist">
-        <input type="checkbox" ng-change='changeepisodestatus(episode)' ng-model="episode.isFavorite">
-        {{episode.episodeName}}
-      </label>
-    </div>
-
-  </div>
 </div>
 
 </body>
+
 </html>

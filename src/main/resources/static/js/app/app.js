@@ -1,4 +1,20 @@
-var angularApp = angular.module('angularApp',[]);
+var angularApp = angular.module('angularApp', ['ngRoute']);
+
+angularApp.config(function ($routeProvider) {
+    $routeProvider
+    .when('/search', {
+        templateUrl: 'views/search.html',
+        controller: 'mainController'
+    })
+    .when('/favorite', {
+        templateUrl: 'views/favorite.html',
+        controller: 'favController'
+    })
+    .otherwise({
+    			redirectTo: "/search"
+    });
+
+});
 
 angularApp.controller('mainController', function($scope, $http){
     $scope.getNumber = function(num) {
@@ -26,7 +42,7 @@ angularApp.controller('mainController', function($scope, $http){
             $scope.IsListVisible = true;
             $http({
               method: 'GET',
-              url: '/series/episodes-for-season?series='+$scope.webseriesname + '&season=' + season
+              url: '/series/episodes-for-season?series=' + $scope.webseriesname + '&season=' + season
             }).then(function successCallback(response) {
                 $scope.episodelist = response.data;
               }, function errorCallback(response) {
@@ -34,9 +50,31 @@ angularApp.controller('mainController', function($scope, $http){
               });
         }
 
-    $scope.changeepisodestatus = function(episode){
-        alert(episode.episodeName + "  " +episode.isFavorite)
-
+    $scope.changeepisodestatus = function(seriesSeasonEpisodes){
+        $http({
+          method: 'POST',
+          url: '/write/add-favorite',
+          data: JSON.stringify(seriesSeasonEpisodes)
+        }).then(function successCallback(response) {
+            console.log(response)
+          }, function errorCallback(response) {
+            console.log(response);
+          });
     }
+
+});
+
+
+angularApp.controller('favController', function($scope, $http) {
+    $scope.$on('$viewContentLoaded', function() {
+        $http({
+                     method: 'GET',
+                      url: '/series/get-all-favorite'
+                    }).then(function successCallback(response) {
+                        $scope.favepisodelist = response.data;
+                      }, function errorCallback(response) {
+                        console.log(response);
+                      });
+    });
 
 });
