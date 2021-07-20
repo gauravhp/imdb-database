@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="angularApp">
+<head>
+  <title>My Favorite webseries</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta charset="UTF-8">
+
+  <!-- load bootstrap and fontawesome via CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <style>
+            html, body
+            {
+                font-size: 1.1em;
+            }
+        </style>
+
+  <!-- load angular via CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script type="text/javascript"  src="/js/app/app.js"></script>
+</head>
+<body>
+
+<header>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">AngularJS</a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+  <div ng-controller="mainController">
+    <div>
+    Search Webseries: <input type="text" ng-model="webseriesname" />  <a href="#" class="btn btn-secondary" ng-click="searchseries()">Search</a>
+    </div>
+    <!--div class="alert">{{episodecount}}</div-->
+
+    <div class="list-group" ng-repeat="x in [].constructor(episodecount) track by $index" ng-show="IsVisible">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-primary" ng-click="listepisodes($index+1)">Season {{$index+1}}</a>
+    </div>
+    <hr ng-show="IsListVisible"/>
+    <div class="list-group" ng-repeat="x in episodelist" ng-show="IsListVisible">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-secondary"> {{x}}</a>
+    </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
