@@ -54,7 +54,7 @@ public class SeriesDataServiceImpl implements SeriesDataService {
 
     private List<SeriesSeasonEpisodes> getEpisodeData(String seriesName, String seasonNumber, List<String> episodes) {
         List<SeriesSeasonEpisodes> response = new ArrayList<>();
-        List<String> episodeAlreadyFav = repository.findBySeriesWebseriesNameAndSeason(seriesName,seasonNumber);
+        List<String> episodeAlreadyFav = repository.findFavoriteEpisodesBySeriesWebseriesNameAndSeason(seriesName,seasonNumber);
         for(String episode: episodes){
             if(episodeAlreadyFav.contains(episode))
                 response.add(new SeriesSeasonEpisodes(seriesName, seasonNumber,episode,true));
