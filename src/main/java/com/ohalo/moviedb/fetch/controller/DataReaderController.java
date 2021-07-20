@@ -28,4 +28,9 @@ public class DataReaderController {
 	{
 		return seriesDataService.getEpisodeDataListForSeriesAndSeason(seriesSeason.get("series"),seriesSeason.get("season"));
 	}
+
+	@PostMapping("/episodes-is-favorite")
+	public Boolean getEpisodeIsFavorite(@RequestBody SeriesSeasonEpisodes seriesSeasonEpisodes){
+		return seriesDataService.getEpisodeIsFavorite(seriesSeasonEpisodes);
+	}
 }

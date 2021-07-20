@@ -35,7 +35,8 @@ angularApp.controller('mainController', function($scope, $http){
         }
 
     $scope.changeepisodestatus = function(episode){
-        alert(episode.isFavorite)
+        alert(episode.episodeName + "  " +episode.isFavorite)
+
     }
 
 });

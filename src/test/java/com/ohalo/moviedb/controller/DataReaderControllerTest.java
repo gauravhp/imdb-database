@@ -1,5 +1,6 @@
 package com.ohalo.moviedb.controller;
 
+import com.ohalo.moviedb.fetch.model.SeriesSeasonEpisodes;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,4 +42,21 @@ public class DataReaderControllerTest {
         Assertions.assertThat(episode1).isEqualTo("Winter Is Coming");
     }
 
+    @Test
+    public void addingFavoriteEpisodeTest() throws InterruptedException {
+        SeriesSeasonEpisodes seriesSeasonEpisodes = new SeriesSeasonEpisodes("Dark","2","Ghosts",true);
+        ResponseEntity response = restTemplate.postForEntity("/write/add-favorite", seriesSeasonEpisodes, SeriesSeasonEpisodes.class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        ResponseEntity<Boolean> getResponse = restTemplate.postForEntity("/series/episodes-is-favorite",seriesSeasonEpisodes,Boolean.class);
+        Assertions.assertThat((Boolean) getResponse.getBody()).isTrue();
+    }
+
+    @Test
+    public void removingFavoriteEpisodeTest() throws InterruptedException {
+        SeriesSeasonEpisodes seriesSeasonEpisodes = new SeriesSeasonEpisodes("Dark","2","Ghosts",false);
+        ResponseEntity response = restTemplate.postForEntity("/write/remove-favorite", seriesSeasonEpisodes, SeriesSeasonEpisodes.class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        ResponseEntity<Boolean> getResponse = restTemplate.postForEntity("/series/episodes-is-favorite",seriesSeasonEpisodes,Boolean.class);
+        Assertions.assertThat((Boolean) getResponse.getBody()).isFalse();
+    }
 }

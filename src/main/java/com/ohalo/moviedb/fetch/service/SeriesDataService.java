@@ -14,4 +14,6 @@ import java.util.Map;
 public interface SeriesDataService {
     public Integer getNumberOfEpisodesForSeries(String seriesName);
     public List<SeriesSeasonEpisodes> getEpisodeDataListForSeriesAndSeason(String seriesName, String seasonNumber);
+    public void saveFavoriteEpisode(SeriesSeasonEpisodes seriesSeasonEpisodes);
+    public Boolean getEpisodeIsFavorite(SeriesSeasonEpisodes seriesSeasonEpisodes);
 }

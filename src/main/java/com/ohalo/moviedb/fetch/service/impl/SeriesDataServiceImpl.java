@@ -3,9 +3,12 @@ package com.ohalo.moviedb.fetch.service.impl;
 import com.ohalo.moviedb.fetch.model.Constants;
 import com.ohalo.moviedb.fetch.model.SeriesSeasonEpisodes;
 import com.ohalo.moviedb.fetch.service.SeriesDataService;
+import com.ohalo.moviedb.repo.SeriesSeasonEpisodeRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +22,12 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SeriesDataServiceImpl implements SeriesDataService {
+    private final SeriesSeasonEpisodeRepo repository;
+
+    @Autowired
+    public SeriesDataServiceImpl(SeriesSeasonEpisodeRepo repository) {
+        this.repository = repository;
+    }
 
     private String getUriPrefix() {
         return Constants.URI + Constants.API_KEY;
@@ -49,5 +58,26 @@ public class SeriesDataServiceImpl implements SeriesDataService {
             response.add(new SeriesSeasonEpisodes(seriesName, seasonNumber,episode,false));
         }
         return response;
+    }
+
+    @Override
+    @Transactional
+    public void saveFavoriteEpisode(SeriesSeasonEpisodes seriesSeasonEpisodes) {
+        SeriesSeasonEpisodes toUpdate = repository.findByEpisodeName(seriesSeasonEpisodes.getEpisodeName());
+        if(toUpdate!=null) {
+            toUpdate.setIsFavorite(seriesSeasonEpisodes.getIsFavorite());
+            repository.saveAndFlush(toUpdate);
+        } else {
+            repository.saveAndFlush(seriesSeasonEpisodes);
+        }
+    }
+
+    @Override
+    public Boolean getEpisodeIsFavorite(SeriesSeasonEpisodes seriesSeasonEpisodes) {
+        SeriesSeasonEpisodes findEpisode = repository.findByEpisodeName(seriesSeasonEpisodes.getEpisodeName());
+        if(findEpisode!=null){
+            return findEpisode.getIsFavorite();
+        }
+        return false;
     }
 }

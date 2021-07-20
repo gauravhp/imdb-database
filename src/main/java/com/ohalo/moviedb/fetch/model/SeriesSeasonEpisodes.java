@@ -2,9 +2,7 @@ package com.ohalo.moviedb.fetch.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * User: Gaurav Parmar
@@ -16,9 +14,12 @@ import javax.persistence.Table;
 @Table(name = "FAVORITE_EPISODES")
 public class SeriesSeasonEpisodes {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SERIES_SEQ")
+    @SequenceGenerator(name = "SERIES_SEQ", sequenceName = "SERIES_SEQ", allocationSize = 1)
     private Long id;
     private String webseriesName;
     private String season;
+    @Column(name="EPISODE_NAME", unique=true)
     private String episodeName;
     private Boolean isFavorite=false;
 
@@ -27,5 +28,8 @@ public class SeriesSeasonEpisodes {
         this.season=season;
         this.episodeName=episode;
         this.isFavorite=b;
+    }
+
+    public SeriesSeasonEpisodes() {
     }
 }
