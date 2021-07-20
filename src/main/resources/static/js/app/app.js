@@ -51,9 +51,17 @@ angularApp.controller('mainController', function($scope, $http){
         }
 
     $scope.changeepisodestatus = function(seriesSeasonEpisodes){
+    console.log(JSON.stringify(seriesSeasonEpisodes))
+    var urlString='';
+    if(seriesSeasonEpisodes.isFavorite){
+        urlString='/write/add-favorite';
+    } else {
+        urlString='/write/remove-favorite';
+    }
+        console.log(urlString);
         $http({
           method: 'POST',
-          url: '/write/add-favorite',
+          url: urlString,
           data: JSON.stringify(seriesSeasonEpisodes)
         }).then(function successCallback(response) {
             console.log(response)

@@ -19,6 +19,6 @@ public interface SeriesSeasonEpisodeRepo extends JpaRepository<SeriesSeasonEpiso
     @Query(value = "select s.episodeName from SeriesSeasonEpisodes s where s.webseriesName=:seriesName and s.season=:season")
     List<String> findBySeriesWebseriesNameAndSeason(@Param("seriesName") String seriesName, @Param("season")  String seasonNumber);
 
-    @Query(value = "select s from SeriesSeasonEpisodes s where s.isFavorite=true")
+    @Query(value = "select s from SeriesSeasonEpisodes s where s.isFavorite=true order by webseriesName ASC, season ASC, episodeName ASC")
     List<SeriesSeasonEpisodes> findAllFavorite();
 }
