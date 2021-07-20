@@ -1,5 +1,6 @@
 package com.ohalo.moviedb.fetch.service;
 
+import com.ohalo.moviedb.fetch.model.SeriesSeasonEpisodes;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -12,5 +13,5 @@ import java.util.Map;
  */
 public interface SeriesDataService {
     public Integer getNumberOfEpisodesForSeries(String seriesName);
-    public List getEpisodeDataListForSeriesAndSeason(String seriesName, String seasonNumber);
+    public List<SeriesSeasonEpisodes> getEpisodeDataListForSeriesAndSeason(String seriesName, String seasonNumber);
 }

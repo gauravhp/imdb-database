@@ -1,6 +1,7 @@
 package com.ohalo.moviedb.fetch.controller;
 
 import com.ohalo.moviedb.fetch.model.Constants;
+import com.ohalo.moviedb.fetch.model.SeriesSeasonEpisodes;
 import com.ohalo.moviedb.fetch.service.SeriesDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class DataReaderController {
 	}
 
 	@GetMapping("/episodes-for-season")
-	public List getEpisodeDataListForSeriesAndSeason(@RequestParam Map<String, String> seriesSeason)
+	public List<SeriesSeasonEpisodes> getEpisodeDataListForSeriesAndSeason(@RequestParam Map<String, String> seriesSeason)
 	{
 		return seriesDataService.getEpisodeDataListForSeriesAndSeason(seriesSeason.get("series"),seriesSeason.get("season"));
 	}

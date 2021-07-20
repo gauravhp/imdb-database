@@ -4,7 +4,12 @@ angularApp.controller('mainController', function($scope, $http){
     $scope.getNumber = function(num) {
         return new Array(num);
     }
+    $scope.currentseason=1
     $scope.searchseries = function(){
+        if(!$scope.webseriesname || $scope.webseriesname.length===0){
+             alert("Please enter a webseries name");
+             return;
+        }
         $scope.IsVisible = true;
         $http({
           method: 'GET',
@@ -17,6 +22,7 @@ angularApp.controller('mainController', function($scope, $http){
     }
 
     $scope.listepisodes = function(season){
+            $scope.currentseason=season
             $scope.IsListVisible = true;
             $http({
               method: 'GET',
@@ -27,5 +33,9 @@ angularApp.controller('mainController', function($scope, $http){
                 console.log(response);
               });
         }
+
+    $scope.changeepisodestatus = function(episode){
+        alert(episode.isFavorite)
+    }
 
 });

@@ -1,10 +1,12 @@
 package com.ohalo.moviedb.fetch.service.impl;
 
 import com.ohalo.moviedb.fetch.model.Constants;
+import com.ohalo.moviedb.fetch.model.SeriesSeasonEpisodes;
 import com.ohalo.moviedb.fetch.service.SeriesDataService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +34,20 @@ public class SeriesDataServiceImpl implements SeriesDataService {
     }
 
     @Override
-    public List getEpisodeDataListForSeriesAndSeason(String seriesName, String seasonNumber) {
+    public List<SeriesSeasonEpisodes> getEpisodeDataListForSeriesAndSeason(String seriesName, String seasonNumber) {
         final String uri = getUriPrefix() + "&t="+seriesName+"&Season="+seasonNumber;
         RestTemplate restTemplate = new RestTemplate();
         HashMap result = restTemplate.getForObject(uri, HashMap.class);
         List<Map<String,String>> episodeData = (List<Map<String, String>>) result.get("Episodes");
         List<String> episodes = episodeData.stream().map(x -> x.get("Title")).collect(Collectors.toList());
-        return episodes;
+        return getEpisodeData(seriesName, seasonNumber, episodes);
+    }
+
+    private List<SeriesSeasonEpisodes> getEpisodeData(String seriesName, String seasonNumber, List<String> episodes) {
+        List<SeriesSeasonEpisodes> response = new ArrayList<>();
+        for(String episode: episodes){
+            response.add(new SeriesSeasonEpisodes(seriesName, seasonNumber,episode,false));
+        }
+        return response;
     }
 }
