@@ -26,13 +26,16 @@ angularApp.controller('mainController', function($scope, $http){
              alert("Please enter a webseries name");
              return;
         }
-        $scope.IsVisible = true;
+        $scope.IsVisible = false;
+        $scope.seriesDoesNotExist=false;
         $http({
           method: 'GET',
           url: '/series/no-of-episodes/'+$scope.webseriesname
         }).then(function successCallback(response) {
+            $scope.IsVisible = true;
             $scope.episodecount = response.data;
           }, function errorCallback(response) {
+            $scope.seriesDoesNotExist = true
             console.log(response);
           });
     }

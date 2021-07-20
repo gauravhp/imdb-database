@@ -11,7 +11,11 @@
 <hr ng-show="IsListVisible"/>
 <div ng-show="IsListVisible">List of episodes for season {{currentseason}} of series {{webseriesname}}</div>
 
-
+<div ng-show="seriesDoesNotExist" class="card">
+    <div class="card-body">
+        This series does not exist...
+    </div>
+</div>
 <div class="list-group" ng-show="IsListVisible">
     <label class="list-group-item" ng-repeat="episode in episodelist">
         <input type="checkbox" ng-change='changeepisodestatus(episode)' ng-model="episode.isFavorite">
