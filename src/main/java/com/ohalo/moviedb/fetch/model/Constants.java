@@ -6,6 +6,6 @@ package com.ohalo.moviedb.fetch.model;
  * Time: 17:25
  */
 public class Constants {
-    public static final String API_KEY="5651659c";
+    public static final String API_KEY=$ {{ API_KEY }};
     public static final String URI="http://www.omdbapi.com/?apikey=";
 }
